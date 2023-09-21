@@ -54,6 +54,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -130,7 +131,7 @@ fun CatalogueFragment(
                         painter = painterResource(id = R.drawable.logo),
                         contentDescription = "Logo",
                         modifier = Modifier
-                            .align(Alignment.Center)
+                            .align(Center)
                     )
 
                     IconButton(
@@ -142,7 +143,7 @@ fun CatalogueFragment(
                             painter = painterResource(id = R.drawable.search),
                             contentDescription = "Search",
                             modifier = Modifier
-                                .align(Alignment.Center)
+                                .align(Center)
                         )
                     }
                 }
@@ -157,16 +158,31 @@ fun CatalogueFragment(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                LazyVerticalGrid(
-                    if (screenWidth > 500.dp) GridCells.Fixed(4) else GridCells.Fixed(2),
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    items(filteredProducts) { product ->
-                        CatalogueItem(
-                            product = product,
-                            onAddToCartClick = { addedProduct, count ->
-                                cart[addedProduct] = cart.getOrDefault(addedProduct, 0) + count
-                            }
+                if (filteredProducts.isNotEmpty()){
+                    LazyVerticalGrid(
+                        if (screenWidth > 500.dp) GridCells.Fixed(4) else GridCells.Fixed(2),
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        items(filteredProducts) { product ->
+                            CatalogueItem(
+                                product = product,
+                                onAddToCartClick = { addedProduct, count ->
+                                    cart[addedProduct] = cart.getOrDefault(addedProduct, 0) + count
+                                }
+                            )
+                        }
+                    }
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                    ) {
+                        Text(
+                            text = "Таких блюд нет :(\nПопробуйте изменить фильтры",
+                            fontSize = 16.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.align(Center),
+                            color = Color.Gray
                         )
                     }
                 }
@@ -262,7 +278,7 @@ fun CatalogueItem(product: Product, onAddToCartClick: (Product, Int) -> Unit) {
             Spacer(modifier = Modifier.height(8.dp))
 
             Row(
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -430,7 +446,7 @@ fun FilterSnackBar(
                     )
                     filters.forEach { (filterName, filterId) ->
                         Row(
-                            verticalAlignment = Alignment.CenterVertically,
+                            verticalAlignment = CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween,
                             modifier = Modifier.clickable {
                                 val updatedFilters = selectedFilters.toMutableSet()
