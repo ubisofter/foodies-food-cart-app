@@ -38,10 +38,8 @@ import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
@@ -63,12 +61,11 @@ import androidx.navigation.NavController
 fun CatalogueFragment(
     navController: NavController,
     categories: List<Category>,
-    products: List<Product>
+    products: List<Product>,
+    cartViewModel: CartViewModel
 ) {
-    var itemCount by remember { mutableStateOf(0) }
     val scaffoldState = rememberScaffoldState()
-    val coroutineScope = rememberCoroutineScope()
-    val cart = remember { mutableStateMapOf<Product, Int>() }
+    val cart = cartViewModel.cart
     val totalCost = cart.entries.sumBy { (product, count) -> product.price_current * count }
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     var selectedCategory by remember { mutableStateOf(categories.first()) }
@@ -85,7 +82,7 @@ fun CatalogueFragment(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(60.dp) // Высота Toolbar
+                        .height(60.dp)
                         .background(Color.White)
                 ) {
                     IconButton(
@@ -166,9 +163,7 @@ fun CatalogueFragment(
                         items(filteredProducts) { product ->
                             CatalogueItem(
                                 product = product,
-                                onAddToCartClick = { addedProduct, count ->
-                                    cart[addedProduct] = cart.getOrDefault(addedProduct, 0) + count
-                                }
+                                cartViewModel = cartViewModel
                             )
                         }
                     }
@@ -186,22 +181,41 @@ fun CatalogueFragment(
                         )
                     }
                 }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                if (totalCost > 0) {
-                    Button(
-                        onClick = { /* Обработка нажатия на кнопку Заказать*/ },
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .height(56.dp),
-                    ) {
-                        Text("Заказать за $totalCost ₽")
-                    }
-                }
             }
         }
     )
+
+    Spacer(modifier = Modifier.height(16.dp))
+
+    if (totalCost > 0) {
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.Bottom
+        ) {
+            Box(
+                modifier = Modifier
+                    .height(120.dp)
+                    .fillMaxWidth()
+                    .background(Color.White)
+            ) {
+                Button(
+                    onClick = {
+                        // Обработка нажатия на кнопку Заказать
+                        navController.navigate("cart")
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                        .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+                        .background(Color(0xFFF15412), RoundedCornerShape(8.dp)),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFF15412)),
+                    elevation = null
+                ) {
+                    Text("Заказать за $totalCost ₽", color = Color.White)
+                }
+            }
+        }
+    }
 
     if (isFilterOpen) {
         FilterSnackBar(
@@ -221,11 +235,12 @@ fun CatalogueFragment(
 }
 
 @Composable
-fun CatalogueItem(product: Product, onAddToCartClick: (Product, Int) -> Unit) {
-    var itemCount by remember { mutableStateOf(0) }
-    val showCounter = itemCount > 0
+fun CatalogueItem(product: Product, cartViewModel: CartViewModel) {
+    val itemCount = cartViewModel.getItemCount(product)
     val tagIcons = mutableListOf<Painter>()
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+
+
 
     if (1 in product.tag_ids) { tagIcons.add(painterResource(id = R.drawable.tag_sale)) }
     if (2 in product.tag_ids) { tagIcons.add(painterResource(id = R.drawable.tag_spicy)) }
@@ -291,8 +306,7 @@ fun CatalogueItem(product: Product, onAddToCartClick: (Product, Int) -> Unit) {
                             .size(42.dp),
                         onClick = {
                             if (itemCount > 0) {
-                                itemCount--
-                                onAddToCartClick(product, -1)
+                                cartViewModel.addToCart(product, -1)
                             }
                         }
                     ) {
@@ -316,8 +330,7 @@ fun CatalogueItem(product: Product, onAddToCartClick: (Product, Int) -> Unit) {
                             .background(Color(0xFFFFFFFF), RoundedCornerShape(8.dp))
                             .size(42.dp),
                         onClick = {
-                            itemCount++
-                            onAddToCartClick(product, 1)
+                            cartViewModel.addToCart(product, +1)
                         }
                     ) {
                         Icon(
@@ -331,8 +344,7 @@ fun CatalogueItem(product: Product, onAddToCartClick: (Product, Int) -> Unit) {
                     Button(
                         modifier = Modifier.fillMaxWidth(),
                         onClick = {
-                            itemCount++
-                            onAddToCartClick(product, 1)
+                            cartViewModel.addToCart(product, +1)
                         },
                         shape = RoundedCornerShape(8.dp),
                         colors = ButtonDefaults.buttonColors(

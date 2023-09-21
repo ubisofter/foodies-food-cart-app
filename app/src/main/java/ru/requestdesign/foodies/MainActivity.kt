@@ -1,7 +1,6 @@
 package ru.requestdesign.foodies
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -9,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -55,10 +55,7 @@ class MainActivity : ComponentActivity() {
         val listType = object : TypeToken<List<Product>>() {}.type
         val products = Gson().fromJson<List<Product>>(jsonString, listType)
 
-        for (product in products) {
-            Log.d("Product", "Price Current: ${product.price_current}")
-            Log.d("Product", "Measure Unit: ${product.measure_unit}")
-        }
+        for (product in products) { }
 
         return products
     }
@@ -66,6 +63,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     private fun App(categories: List<Category>, products: List<Product>) {
         val navController = rememberNavController()
+        val cartViewModel = viewModel<CartViewModel>()
 
         NavHost(navController = navController, startDestination = "splash") {
             composable("splash") {
@@ -76,7 +74,8 @@ class MainActivity : ComponentActivity() {
                 CatalogueFragment(
                     navController = navController,
                     categories = categories,
-                    products = products
+                    products = products,
+                    cartViewModel = cartViewModel
                 )
                 window.statusBarColor = Color(0xFFFFFFFF).toArgb()
             }
