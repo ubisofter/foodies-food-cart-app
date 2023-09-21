@@ -64,20 +64,34 @@ class MainActivity : ComponentActivity() {
     private fun App(categories: List<Category>, products: List<Product>) {
         val navController = rememberNavController()
         val cartViewModel = viewModel<CartViewModel>()
+        val catalogueViewModel = viewModel<CatalogueViewModel>() // Добавляем CatalogueViewModel
 
         NavHost(navController = navController, startDestination = "splash") {
             composable("splash") {
-                SplashScreenFragment(navController)
+                SplashScreen(navController)
                 window.statusBarColor = Color(0xFFF15412).toArgb()
             }
             composable("catalogue") {
-                CatalogueFragment(
+                CatalogueScreen(
                     navController = navController,
                     categories = categories,
                     products = products,
-                    cartViewModel = cartViewModel
+                    cartViewModel = cartViewModel,
+                    catalogueViewModel = catalogueViewModel // Передаем CatalogueViewModel
                 )
                 window.statusBarColor = Color(0xFFFFFFFF).toArgb()
+            }
+            composable("item/{productId}") { backStackEntry ->
+                val productId = backStackEntry.arguments?.getString("productId")
+                // Здесь можно использовать productId для отображения соответствующего продукта на ItemScreen
+                // Например, получить продукт из вашего списка продуктов по productId
+                val product = products.firstOrNull { it.id.toString() == productId }
+                if (product != null) {
+                    ItemScreen(product = product, cartViewModel = cartViewModel, navController = navController)
+                } else {
+                    // Обработка случая, когда продукт не найден
+                    // Например, отобразить сообщение об ошибке
+                }
             }
         }
     }

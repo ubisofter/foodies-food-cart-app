@@ -27,6 +27,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -58,20 +59,21 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
-fun CatalogueFragment(
+fun CatalogueScreen(
     navController: NavController,
     categories: List<Category>,
     products: List<Product>,
-    cartViewModel: CartViewModel
+    cartViewModel: CartViewModel,
+    catalogueViewModel: CatalogueViewModel
 ) {
     val scaffoldState = rememberScaffoldState()
     val cart = cartViewModel.cart
-    val totalCost = cart.entries.sumBy { (product, count) -> product.price_current * count }
+    val totalCost = cart.entries.sumOf { (product, count) -> product.price_current * count }
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     var selectedCategory by remember { mutableStateOf(categories.first()) }
-    var selectedFilters by remember { mutableStateOf<Set<Int>>(emptySet()) }
+    var selectedFilters by remember { mutableStateOf<MutableSet<Int>>(mutableSetOf()) }
     var isFilterOpen by remember { mutableStateOf(false) }
-    val filteredProducts = filterProductsByCategory(products, selectedCategory, selectedFilters)
+    val filteredProducts = filterProductsByCategory(products, selectedCategory, selectedFilters.toSet())
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -109,20 +111,20 @@ fun CatalogueFragment(
                                     .size(16.dp)
                                     .background(Color(0xFFF15412), CircleShape)),
                             backgroundColor = Color(0xFFF15412)
-                            ) {
-                        Box(
-                            modifier = Modifier
-                                .align(CenterVertically)
                         ) {
-                            Text(
-                                text = selectedFilters.size.toString(),
-                                color = Color.White,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 10.sp,
-                                modifier = Modifier.align(Center)
-                            )
-                        }
-                    } }
+                            Box(
+                                modifier = Modifier
+                                    .align(CenterVertically)
+                            ) {
+                                Text(
+                                    text = selectedFilters.size.toString(),
+                                    color = Color.White,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 10.sp,
+                                    modifier = Modifier.align(Center)
+                                )
+                            }
+                        } }
 
                     Image(
                         painter = painterResource(id = R.drawable.logo),
@@ -163,7 +165,8 @@ fun CatalogueFragment(
                         items(filteredProducts) { product ->
                             CatalogueItem(
                                 product = product,
-                                cartViewModel = cartViewModel
+                                cartViewModel = cartViewModel,
+                                navController = navController
                             )
                         }
                     }
@@ -200,7 +203,6 @@ fun CatalogueFragment(
             ) {
                 Button(
                     onClick = {
-                        // Обработка нажатия на кнопку Заказать
                         navController.navigate("cart")
                     },
                     modifier = Modifier
@@ -219,28 +221,31 @@ fun CatalogueFragment(
 
     if (isFilterOpen) {
         FilterSnackBar(
-            selectedFilters = selectedFilters.toMutableSet(),
+            selectedFilters = selectedFilters,
             onFilterSelected = { filterId ->
-                // Сохранение выбранных фильтров и обновление списка продуктов по чекбоксу
-                selectedFilters = filterId.toSet()
+                val updatedFilters = selectedFilters.toMutableSet()
+                if (updatedFilters.contains(filterId)) {
+                    updatedFilters.remove(filterId)
+                } else {
+                    updatedFilters.add(filterId)
+                }
+                selectedFilters = updatedFilters
             },
             isOpen = isFilterOpen,
             onClose = { updatedFilters ->
-                // Сохранение выбранных фильтров и обновление списка продуктов по закрытию
-                selectedFilters = updatedFilters.toSet()
+                selectedFilters = updatedFilters.toMutableSet()
                 isFilterOpen = false
             }
         )
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun CatalogueItem(product: Product, cartViewModel: CartViewModel) {
+fun CatalogueItem(navController: NavController, product: Product, cartViewModel: CartViewModel) {
     val itemCount = cartViewModel.getItemCount(product)
     val tagIcons = mutableListOf<Painter>()
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-
-
 
     if (1 in product.tag_ids) { tagIcons.add(painterResource(id = R.drawable.tag_sale)) }
     if (2 in product.tag_ids) { tagIcons.add(painterResource(id = R.drawable.tag_spicy)) }
@@ -256,7 +261,11 @@ fun CatalogueItem(product: Product, cartViewModel: CartViewModel) {
             .aspectRatio(3f / 5)
             .padding(8.dp),
         shape = RoundedCornerShape(8.dp),
-        backgroundColor = Color(0xFFF5F5F5)
+        backgroundColor = Color(0xFFF5F5F5),
+        onClick = {
+            // TODO: Реализовать запоминание выбранных фильтров при перемещениями между экранами
+            navController.navigate("item/${product.id}")
+        }
     ) {
         Column(
         ) {
@@ -424,7 +433,7 @@ fun filterProductsByCategory(
 @Composable
 fun FilterSnackBar(
     selectedFilters: MutableSet<Int>,
-    onFilterSelected: (Set<Int>) -> Unit,
+    onFilterSelected: (Int) -> Unit,
     isOpen: Boolean,
     onClose: (Set<Int>) -> Unit
 ) {
@@ -461,13 +470,7 @@ fun FilterSnackBar(
                             verticalAlignment = CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween,
                             modifier = Modifier.clickable {
-                                val updatedFilters = selectedFilters.toMutableSet()
-                                if (updatedFilters.contains(filterId)) {
-                                    updatedFilters.remove(filterId)
-                                } else {
-                                    updatedFilters.add(filterId)
-                                }
-                                onFilterSelected(updatedFilters)
+                                onFilterSelected(filterId)
                             }
                         ) {
                             Text(
@@ -487,7 +490,7 @@ fun FilterSnackBar(
                                     } else {
                                         updatedFilters.remove(filterId)
                                     }
-                                    onFilterSelected(updatedFilters)
+                                    onFilterSelected(filterId)
                                 },
                                 modifier = Modifier.padding(end = 16.dp),
                                 colors = CheckboxDefaults.colors(checkedColor = Color(0xFFF15412))
@@ -499,9 +502,11 @@ fun FilterSnackBar(
                         onClick = { onClose(selectedFilters) },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 24.dp, vertical = 8.dp) // Отступы кнопки
-                            .background(Color(0xFFF15412), RoundedCornerShape(8.dp)),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFF15412)),
+                            .padding(horizontal = 24.dp, vertical = 8.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color(0xFFF15412)
+                        ),
                         elevation = null
                     ) {
                         Text(

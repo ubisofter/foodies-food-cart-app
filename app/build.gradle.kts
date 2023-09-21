@@ -79,7 +79,8 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.5.1")
 
     // Coil (или другая библиотека для загрузки изображений): Для загрузки и отображения изображений блюд:
-    implementation("io.coil-kt:coil:1.0.0")
+    implementation("io.coil-kt:coil:2.4.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     // Preview
     debugImplementation("androidx.compose.ui:ui-tooling:1.5.1")

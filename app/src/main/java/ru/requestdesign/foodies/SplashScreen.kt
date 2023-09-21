@@ -23,7 +23,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreenFragment(navController: NavController) {
+fun SplashScreen(navController: NavController) {
     var animationFinished by remember { mutableStateOf(false)
     }
 
