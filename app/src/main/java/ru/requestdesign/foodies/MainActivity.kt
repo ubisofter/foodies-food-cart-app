@@ -1,6 +1,7 @@
 package ru.requestdesign.foodies
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -62,9 +63,9 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun App(categories: List<Category>, products: List<Product>) {
-        val navController = rememberNavController()
-        val cartViewModel = viewModel<CartViewModel>()
-        val catalogueViewModel = viewModel<CatalogueViewModel>()
+        var navController = rememberNavController()
+        var cartViewModel = viewModel<CartViewModel>()
+        var catalogueViewModel = viewModel<CatalogueViewModel>()
 
         NavHost(navController = navController, startDestination = "splash") {
             composable("splash") {
@@ -82,6 +83,7 @@ class MainActivity : ComponentActivity() {
                 )
                 window.statusBarColor = Color(0xFFFFFFFF).toArgb()
                 window.navigationBarColor = Color(0x1E000000).toArgb()
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             }
             composable("item/{productId}") { backStackEntry ->
                 val productId = backStackEntry.arguments?.getString("productId")

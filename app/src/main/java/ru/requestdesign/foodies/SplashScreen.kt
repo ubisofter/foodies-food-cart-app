@@ -24,8 +24,8 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(navController: NavController) {
-    var animationFinished by remember { mutableStateOf(false)
-    }
+
+    var animationFinished by remember { mutableStateOf(false) }
 
     LaunchedEffect(animationFinished) {
         delay(2000)

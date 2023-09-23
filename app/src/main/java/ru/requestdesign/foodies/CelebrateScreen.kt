@@ -46,14 +46,6 @@ fun CelebrateScreen(navController: NavController, context: Context) {
         when (animationState) {
             AnimationState.Packing -> {
                 delay(4000)
-                animationState = AnimationState.Drive
-            }
-            AnimationState.Drive -> {
-                delay(5000)
-                animationState = AnimationState.Done
-            }
-            AnimationState.Complete -> {
-                delay(5000)
                 animationState = AnimationState.Done
             }
             AnimationState.Done -> {
@@ -64,62 +56,98 @@ fun CelebrateScreen(navController: NavController, context: Context) {
 
     val scaffoldState = rememberScaffoldState()
 
-    Scaffold(
-        scaffoldState = scaffoldState,
-        modifier = Modifier.fillMaxSize(),
-        content = { it
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Crossfade(targetState = animationState, label = "") { target ->
-                    when (target) {
-                        AnimationState.Packing -> {
-                            ComposeLottieAnimation(
-                                animationResId = R.raw.anim_packing,
-                                modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
-                                onFinish = { animationState = AnimationState.Drive }
-                            )
-                        }
-
-                        AnimationState.Drive -> {
-                            ComposeLottieAnimation(
-                                animationResId = R.raw.anim_drive,
-                                modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
-                                onFinish = { animationState = AnimationState.Done }
-                            )
-                        }
-
-                        AnimationState.Complete -> {
-                            ComposeLottieAnimation(
-                                animationResId = R.raw.anim_done,
-                                modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
-                                onFinish = { animationState = AnimationState.Done }
-                            )
-                        }
-
-                        AnimationState.Done -> {
-                            if (animationFinished.value) {
-                                CelebrateCard(
-                                    onGitHubClick = {
-                                        val githubLink = "https://github.com/ubisofter/foodies-food-cart-app/"
-                                        openLinkInBrowser(githubLink, context)
-                                    },
-                                    onInviteClick = {
-                                        val githubLink = "https://t.me/brolligator"
-                                        openLinkInBrowser(githubLink, context)
-                                    }
+    AppTheme {
+        Scaffold(
+            scaffoldState = scaffoldState,
+            modifier = Modifier.fillMaxSize(),
+            content = {
+                it
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Crossfade(targetState = animationState, label = "") { target ->
+                        when (target) {
+                            AnimationState.Packing -> {
+                                ComposeLottieAnimation(
+                                    animationResId = R.raw.anim_done,
+                                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+                                    onFinish = { animationState = AnimationState.Done }
                                 )
+                            }
+                            AnimationState.Done -> {
+                                if (animationFinished.value) {
+                                    Card(
+                                        modifier = Modifier
+                                            .height(260.dp)
+                                            .fillMaxWidth()
+                                            .padding(16.dp),
+                                        elevation = 8.dp,
+                                        shape = RoundedCornerShape(16.dp)
+                                    ) {
+                                        Column(
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .padding(16.dp),
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            Text(
+                                                text = "Оцените код на GitHub!",
+                                                fontSize = 18.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                textAlign = TextAlign.Center,
+                                                modifier = Modifier
+                                                    .padding(16.dp),
+                                            )
+
+                                            Button(
+                                                onClick = {
+                                                    val githubLink =
+                                                        "https://github.com/ubisofter/foodies-food-cart-app/"
+                                                    val intent =
+                                                        Intent(Intent.ACTION_VIEW, Uri.parse(githubLink))
+                                                    context.startActivity(intent)
+                                                          },
+                                                modifier = Modifier
+                                                    .height(72.dp)
+                                                    .fillMaxWidth()
+                                                    .padding(16.dp), colors = ButtonDefaults.buttonColors(Color(0xFFF15412))
+                                            ) {
+                                                Text(text = "На GitHub", color = Color.White, fontWeight = FontWeight.Bold)
+                                            }
+
+                                            Button(
+                                                onClick = {
+                                                    val githubLink = "https://t.me/brolligator"
+                                                    val intent =
+                                                        Intent(Intent.ACTION_VIEW, Uri.parse(githubLink))
+                                                    context.startActivity(intent)
+                                                          },
+                                                modifier = Modifier
+                                                    .height(56.dp)
+                                                    .fillMaxWidth()
+                                                    .padding(bottom = 16.dp, start = 16.dp, end = 16.dp),
+                                                colors = ButtonDefaults.buttonColors(Color(0xFFF15412))
+                                            ) {
+                                                Text(
+                                                    text = "Пригласить на работу",
+                                                    color = Color.White,
+                                                    fontWeight = FontWeight.Bold
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
-        }
-    )
+        )
+    }
 }
 
 @Composable
@@ -145,66 +173,7 @@ fun ComposeLottieAnimation(
     )
 }
 
-@Composable
-fun CelebrateCard(
-    onGitHubClick: () -> Unit,
-    onInviteClick: () -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .height(360.dp)
-            .fillMaxWidth()
-            .padding(16.dp),
-        elevation = 8.dp,
-        shape = RoundedCornerShape(16.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Оцените код на GitHub!",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(16.dp),
-            )
-
-            Button(
-                onClick = { onGitHubClick() },
-                modifier = Modifier
-                    .height(56.dp)
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                , colors = ButtonDefaults.buttonColors(Color(0xFFF15412))
-            ) {
-                Text(text = "На GitHub", color = Color.White, fontWeight = FontWeight.Bold)
-            }
-
-            Button(
-                onClick = { onInviteClick() },
-                modifier = Modifier
-                    .height(56.dp)
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
-                , colors = ButtonDefaults.buttonColors(Color(0xFFF15412))
-            ) {
-                Text(text = "Пригласить на работу", color = Color.White, fontWeight = FontWeight.Bold)
-            }
-        }
-    }
-}
-
 enum class AnimationState {
     Packing,
-    Drive,
-    Complete,
     Done
-}
-
-fun openLinkInBrowser(link: String, context: Context) {
-    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
-    context.startActivity(intent)
 }
