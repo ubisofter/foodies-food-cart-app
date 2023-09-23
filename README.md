@@ -10,6 +10,16 @@
 
 a Kotlin-based mobile application using Jetpack Compose, is an adaptive application with animations and Clean Architecture. It includes screens where the user can browse the catalog of dishes, add them to the cart, and apply filters and search for dishes.
 
+## ToDo for next Commit
+1) Make the status bar light-themed or make black icons and the time
+2) Center the search input field
+3) Do something with animations at the end, bad transitions
+4) Links don't work at the end and the button wrong placing
+5) Make normal deletion from the list in the cart
+6) Make list receiving via request and add the relevant progressBar under the logo during splashScreen
+7) Make an icon
+8) Make autoscroll of title in ItemScreen
+
 ## Tech task screenshoots
 <img width="230" alt="2" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/5ec68abc-20cf-450d-bc08-ed871f24d323">
 <img width="230" alt="3" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/e4a87eed-c2f5-47f3-bdbf-1a4adb555abe">
