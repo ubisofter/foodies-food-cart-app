@@ -86,6 +86,9 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling:1.5.1")
     implementation("androidx.compose.ui:ui-tooling-preview:1.5.1")
 
+    // Animations
+    implementation("androidx.compose.animation:animation-core:1.5.1")
+
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")

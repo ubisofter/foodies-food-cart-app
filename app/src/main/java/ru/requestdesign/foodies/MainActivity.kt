@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowCompat.setDecorFitsSystemWindows(window, true)
 
         val categoriesInputStream = resources.openRawResource(R.raw.categories)
         val categoriesJson = categoriesInputStream.bufferedReader().use { it.readText() }
@@ -64,12 +64,13 @@ class MainActivity : ComponentActivity() {
     private fun App(categories: List<Category>, products: List<Product>) {
         val navController = rememberNavController()
         val cartViewModel = viewModel<CartViewModel>()
-        val catalogueViewModel = viewModel<CatalogueViewModel>() // Добавляем CatalogueViewModel
+        val catalogueViewModel = viewModel<CatalogueViewModel>()
 
         NavHost(navController = navController, startDestination = "splash") {
             composable("splash") {
                 SplashScreen(navController)
                 window.statusBarColor = Color(0xFFF15412).toArgb()
+                window.navigationBarColor = Color(0xFFF15412).toArgb()
             }
             composable("catalogue") {
                 CatalogueScreen(
@@ -77,21 +78,26 @@ class MainActivity : ComponentActivity() {
                     categories = categories,
                     products = products,
                     cartViewModel = cartViewModel,
-                    catalogueViewModel = catalogueViewModel // Передаем CatalogueViewModel
+                    catalogueViewModel = catalogueViewModel
                 )
                 window.statusBarColor = Color(0xFFFFFFFF).toArgb()
+                window.navigationBarColor = Color(0x1E000000).toArgb()
             }
             composable("item/{productId}") { backStackEntry ->
                 val productId = backStackEntry.arguments?.getString("productId")
-                // Здесь можно использовать productId для отображения соответствующего продукта на ItemScreen
-                // Например, получить продукт из вашего списка продуктов по productId
                 val product = products.firstOrNull { it.id.toString() == productId }
                 if (product != null) {
                     ItemScreen(product = product, cartViewModel = cartViewModel, navController = navController)
-                } else {
-                    // Обработка случая, когда продукт не найден
-                    // Например, отобразить сообщение об ошибке
                 }
+            }
+            composable("cart") {
+                CartScreen(
+                    navController = navController,
+                    cartViewModel = cartViewModel
+                )
+            }
+            composable("celebrate") {
+                CelebrateScreen(navController, applicationContext)
             }
         }
     }

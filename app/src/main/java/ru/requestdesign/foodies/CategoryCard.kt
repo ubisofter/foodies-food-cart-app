@@ -16,7 +16,7 @@ fun CategoryCard(category: Category, selected: Boolean, onCategorySelected: (Cat
     Card(
         backgroundColor = if (selected) Color(0xFFF15412) else Color.White,
         modifier = Modifier
-            .padding(8.dp)
+            .padding(start = 8.dp, top = 8.dp, bottom = 8.dp)
             .clickable {
                 onCategorySelected(category)
             },
@@ -24,8 +24,8 @@ fun CategoryCard(category: Category, selected: Boolean, onCategorySelected: (Cat
     ) {
         Text(
             text = category.name,
-            modifier = Modifier.padding(16.dp),
-            fontSize = 18.sp,
+            modifier = Modifier.padding(12.dp),
+            fontSize = 16.sp,
             color = if (selected) Color.White else Color.Black,
         )
     }

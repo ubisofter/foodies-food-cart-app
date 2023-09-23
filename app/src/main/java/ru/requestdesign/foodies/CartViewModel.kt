@@ -11,7 +11,6 @@ class CartViewModel : ViewModel() {
         _cart[product] = _cart.getOrDefault(product, 0) + count
     }
 
-    // Добавьте функцию для получения количества продуктов в корзине по продукту
     fun getItemCount(product: Product): Int {
         return _cart[product] ?: 0
     }
