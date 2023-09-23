@@ -57,6 +57,10 @@ Welcomed:
 References:
 Figma link
 
+UPD: My fault:D I've read tech document before this line and though that it's all task description,
+but it was only first page, full task I'll add later, that's why I made decomposition, full document
+I've read only after 3 days of development %D
+
 ## Task decomposition
 
 **SplashScreen**
