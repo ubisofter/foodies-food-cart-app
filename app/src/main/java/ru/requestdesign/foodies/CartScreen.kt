@@ -2,6 +2,7 @@ package ru.requestdesign.foodies
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,7 +33,6 @@ import androidx.compose.material.icons.filled.Remove
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
@@ -95,7 +95,8 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel) {
                         CartItem(
                             product = product,
                             itemCount = itemCount,
-                            cartViewModel = cartViewModel
+                            cartViewModel = cartViewModel,
+                            navController = navController
                         )
                         Spacer(modifier = Modifier.height(1.dp).background(Color(0x1F000000)))
                     }
@@ -166,21 +167,28 @@ fun CartScreen(navController: NavController, cartViewModel: CartViewModel) {
 }
 
 @Composable
-fun CartItem(product: Product, itemCount: Int, cartViewModel: CartViewModel) {
+fun CartItem(
+    product: Product,
+    itemCount: Int,
+    cartViewModel: CartViewModel,
+    navController: NavController
+) {
     val isDiscounted = product.price_old != null
     val totalPrice = product.price_current * itemCount / 100
 
     AppTheme {
         Box(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth().clickable {
+                    navController.navigate("item/${product.id}")
+                }
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
                 Row(
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {

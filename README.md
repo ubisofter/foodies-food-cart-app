@@ -21,6 +21,7 @@ a Kotlin-based mobile application using Jetpack Compose, is an adaptive applicat
 8) ~~Make title autoscroll in ItemScreen~~
 9) ~~make dish composition scroll in ItemScreen~~
 10) ~~add dish feature tags to ItemScreen~~
+11) ~~add transition from CartScreen to ItemScreen for detailed info~~
 
 ## Tech task screenshoots
 <img width="230" alt="2" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/5ec68abc-20cf-450d-bc08-ed871f24d323">
