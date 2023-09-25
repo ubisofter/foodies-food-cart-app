@@ -1,4 +1,4 @@
-package ru.requestdesign.foodies
+package ru.requestdesign.foodies.presentation.screens
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -51,6 +51,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import ru.requestdesign.foodies.presentation.ui.AppTheme
+import ru.requestdesign.foodies.viewmodel.CartViewModel
+import ru.requestdesign.foodies.data.Product
+import ru.requestdesign.foodies.R
 
 @Composable
 fun ItemScreen(

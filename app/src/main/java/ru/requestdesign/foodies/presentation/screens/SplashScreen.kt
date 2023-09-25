@@ -1,6 +1,5 @@
-package ru.requestdesign.foodies
+package ru.requestdesign.foodies.presentation.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,19 +21,16 @@ import com.airbnb.lottie.compose.LottieClipSpec
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import kotlinx.coroutines.delay
+import ru.requestdesign.foodies.R
 
 @Composable
-fun SplashScreen(navController: NavController, categories: List<Category>, products: List<Product>) {
+fun SplashScreen(navController: NavController) {
     var animationFinished by remember { mutableStateOf(false) }
 
     LaunchedEffect(animationFinished) {
-        delay(5000)
-        if(products.isNotEmpty() && categories.isNotEmpty()){
-            animationFinished = true
-            navController.navigate("catalogue")
-        } else {
-            Log.d("SPLASH SCREEN","products & categories Empty: $products + $categories")
-        }
+        delay(2000)
+        animationFinished = true
+        navController.navigate("catalogue")
     }
 
     Scaffold(

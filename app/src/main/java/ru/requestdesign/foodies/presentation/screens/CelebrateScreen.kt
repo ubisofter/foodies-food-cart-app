@@ -1,4 +1,4 @@
-package ru.requestdesign.foodies
+package ru.requestdesign.foodies.presentation.screens
 
 import android.content.Context
 import android.content.Intent
@@ -35,6 +35,8 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import kotlinx.coroutines.delay
+import ru.requestdesign.foodies.R
+import ru.requestdesign.foodies.presentation.ui.AppTheme
 
 @Composable
 fun CelebrateScreen(navController: NavController, context: Context) {
