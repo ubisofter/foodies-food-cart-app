@@ -25,7 +25,7 @@
 
 <p align="center">
 <a href="https://github.com/ubisofter">
-<img width="200" alt="3" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/e4a87eed-c2f5-47f3-bdbf-1a4adb555abe">
+<img width="195" alt="3" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/e4a87eed-c2f5-47f3-bdbf-1a4adb555abe">
 <img alt="Foodies Food cart app" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/f8e7031f-2c8f-4bc9-9e5b-18186d9ef887" width="600" />
 </a>
 
@@ -296,7 +296,7 @@ limitations under the License.
 
 <p align="center">
   <a href="https://github.com/ubisofter">
-<img width="200" alt="3" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/e4a87eed-c2f5-47f3-bdbf-1a4adb555abe">
+<img width="195" alt="3" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/e4a87eed-c2f5-47f3-bdbf-1a4adb555abe">
 <img alt="Приложение Foodies Еда" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/f8e7031f-2c8f-4bc9-9e5b-18186d9ef887" width="600" />
   </a>
 </p>
