@@ -105,10 +105,9 @@ fun CelebrateScreen(navController: NavController, context: Context) {
 
                                             Button(
                                                 onClick = {
-                                                    val githubLink =
-                                                        "https://github.com/ubisofter/foodies-food-cart-app/"
-                                                    val intent =
-                                                        Intent(Intent.ACTION_VIEW, Uri.parse(githubLink))
+                                                    val githubLink = "https://github.com/ubisofter/foodies-food-cart-app/"
+                                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(githubLink))
+                                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                                                     context.startActivity(intent)
                                                           },
                                                 modifier = Modifier
@@ -122,8 +121,8 @@ fun CelebrateScreen(navController: NavController, context: Context) {
                                             Button(
                                                 onClick = {
                                                     val githubLink = "https://t.me/brolligator"
-                                                    val intent =
-                                                        Intent(Intent.ACTION_VIEW, Uri.parse(githubLink))
+                                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(githubLink))
+                                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                                                     context.startActivity(intent)
                                                           },
                                                 modifier = Modifier

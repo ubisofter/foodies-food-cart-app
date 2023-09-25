@@ -79,8 +79,8 @@ import androidx.navigation.NavController
 @Composable
 fun CatalogueScreen(
     navController: NavController,
-    categories: List<Category>,
     products: List<Product>,
+    categories: List<Category>,
     cartViewModel: CartViewModel,
     catalogueViewModel: CatalogueViewModel
 ) {
@@ -102,6 +102,7 @@ fun CatalogueScreen(
     var darkOverlayAlpha by remember { mutableFloatStateOf(0.0f) }
     val darkOverlayAlphaBg by animateFloatAsState(targetValue = if (isBottomSheetOpen) 0.6f else 0.0f, label = "")
     val bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
+
     LaunchedEffect(isBottomSheetOpen) {
         if (isBottomSheetOpen) {
             bottomSheetState.expand()
@@ -280,7 +281,7 @@ fun CatalogueScreen(
                                 isBottomSheetOpen = !isBottomSheetOpen
                             },
                             modifier = Modifier
-                                .align(Alignment.CenterStart)
+                                .align(CenterStart)
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.filter),

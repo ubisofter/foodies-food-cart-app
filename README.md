@@ -15,7 +15,7 @@ a Kotlin-based mobile application using Jetpack Compose, is an adaptive applicat
 2) ~~Center the search input field~~
 3) ~~Links don't work at the end and the button wrong placing~~
 4) ~~Make normal deletion from the list in the cart~~
-5) Make list receiving via request and add the relevant progressBar under the logo during content loading on splashScreen
+5) ~~Make list receiving via request and add the relevant progressBar under the logo during content loading on splashScreen~~
 6) ~~Make an icon~~
 7) ~~Make title autoscroll in ItemScreen~~
 8) ~~make dish composition scroll in ItemScreen~~

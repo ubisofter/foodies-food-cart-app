@@ -1,6 +1,7 @@
 package ru.requestdesign.foodies
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,9 +16,32 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 @ExperimentalFoundationApi
 class MainActivity : ComponentActivity() {
+
+    private val baseUrl = "https://raw.githubusercontent.com/ubisofter/foodies-food-cart-app/main/app/src/main/res/raw/"
+
+    private val okHttpClient = OkHttpClient.Builder()
+        .callTimeout(30, TimeUnit.SECONDS)
+        .build()
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(baseUrl)
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(okHttpClient)
+        .build()
+
+    private val foodApi = retrofit.create(FoodApi::class.java)
 
     private var categories: List<Category> = emptyList()
     private var products: List<Product> = emptyList()
@@ -27,23 +51,38 @@ class MainActivity : ComponentActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, true)
 
-        val categoriesInputStream = resources.openRawResource(R.raw.categories)
-        val categoriesJson = categoriesInputStream.bufferedReader().use { it.readText() }
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
 
-        val productsInputStream = resources.openRawResource(R.raw.products)
-        val productsJson = productsInputStream.bufferedReader().use { it.readText() }
+                val categoriesJob = async(Dispatchers.IO) {
+                    try {
+                        categories = foodApi.getCategories()
+                        categories = loadCategoriesFromJson(categories.toString())
+                    } catch (e: Exception) {
+                        Log.d("EXCEPTON GET", e.toString())
+                    }
+                }
 
-        categories = loadCategoriesFromJson(categoriesJson)
-        products = loadProductsFromJson(productsJson)
+                val productsJob = async(Dispatchers.IO) {
+                    try {
+                        products = foodApi.getProducts()
+                        products = loadProductsFromJson(products.toString())
+                    } catch (e: Exception) {
+                        Log.d("EXCEPTON GET", e.toString())
+                    }
+                }
+                awaitAll(categoriesJob, productsJob)
+
+                Log.d("CATEGORIES REQUEST","Result: $categories")
+                Log.d("PRODUCTS REQUEST","Result: $products")
+
+            } catch (e: Exception) {
+                Log.d("REQUEST EXCEPTION","Result: $e")
+            }
+        }
 
         setContent {
-            App(categories, products)
-        }
-    }
-
-    private fun loadJsonFromAssets(fileName: String): String {
-        return applicationContext.assets.open(fileName).bufferedReader().use {
-            it.readText()
+            App()
         }
     }
 
@@ -62,14 +101,14 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun App(categories: List<Category>, products: List<Product>) {
-        var navController = rememberNavController()
-        var cartViewModel = viewModel<CartViewModel>()
-        var catalogueViewModel = viewModel<CatalogueViewModel>()
+    private fun App() {
+        val navController = rememberNavController()
+        val cartViewModel = viewModel<CartViewModel>()
+        val catalogueViewModel = viewModel<CatalogueViewModel>()
 
         NavHost(navController = navController, startDestination = "splash") {
             composable("splash") {
-                SplashScreen(navController)
+                SplashScreen(navController, categories, products)
                 window.statusBarColor = Color(0xFFF15412).toArgb()
                 window.navigationBarColor = Color(0xFFF15412).toArgb()
             }
