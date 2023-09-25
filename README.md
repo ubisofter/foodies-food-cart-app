@@ -25,7 +25,7 @@
 
 <p align="center">
 <a href="https://github.com/ubisofter">
-<img width="300" alt="3" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/e4a87eed-c2f5-47f3-bdbf-1a4adb555abe">
+<img width="200" alt="3" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/e4a87eed-c2f5-47f3-bdbf-1a4adb555abe">
 <img alt="Foodies Food cart app" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/f8e7031f-2c8f-4bc9-9e5b-18186d9ef887" width="600" />
 </a>
 
@@ -296,7 +296,8 @@ limitations under the License.
 
 <p align="center">
   <a href="https://github.com/ubisofter">
-    <img alt="Приложение Foodies Еда" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/f8e7031f-2c8f-4bc9-9e5b-18186d9ef887" width="600" />
+<img width="200" alt="3" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/e4a87eed-c2f5-47f3-bdbf-1a4adb555abe">
+<img alt="Приложение Foodies Еда" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/f8e7031f-2c8f-4bc9-9e5b-18186d9ef887" width="600" />
   </a>
 </p>
 
@@ -321,7 +322,6 @@ limitations under the License.
 <img width="200" alt="5" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/1d61d536-e479-4ef1-bf15-435306cdbb9d">
 <img width="200" alt="6" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/36bddf3f-f7b5-40b7-9766-f206b077bf4e">
 <img width="200" alt="7" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/647f22dd-c16f-42b7-8db0-b6caf2092751">
-<img width="200" alt="8" src="https://ithub.com/ubisofter/foodies-food-cart-app/assets/78037558/676a7151-107d-4975-86c5-abb234aabb46">
 <img width="200" alt="9" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/3cb11567-4cd5-480c-98b1-be94fa3461eb">
 <img width="200" alt="10" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/9e7a1b62-7a7d-41d5-a1a3-35c7c39c29fb">
 <img width="200" alt="11" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/19179458-0571-44ab-ad51-e730a23903e0">
