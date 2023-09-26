@@ -2,7 +2,7 @@
 ## EN
 
 <h1 align="center">
-  Foodies Food cart app
+  Foodies Food cart app (local storage branch)
 </h1>
 
 <p align="center">
@@ -34,6 +34,8 @@
     ·
     <a href="https://github.com/ubisofter/foodies-food-cart-app#english-version">EN</a>
 </p>
+
+(for use unstable internet request version - visit **[internet](https://github.com/ubisofter/foodies-food-cart-app/tree/internet)** branch)
 
 a Kotlin-based mobile application using Jetpack Compose, is an adaptive application with animations and Clean Architecture. It includes screens where the user can browse the catalog of dishes, add them to the cart, and apply filters and search the catalogue.
 
@@ -291,7 +293,7 @@ limitations under the License.
 ## RU
 
 <h1 align="center">
-  Приложение Foodies Food Cart
+  Приложение Foodies Food Cart (ветка с локальным хранилищем)
 </h1>
 
 <p align="center">
@@ -300,6 +302,8 @@ limitations under the License.
 <img alt="Приложение Foodies Еда" src="https://github.com/ubisofter/foodies-food-cart-app/assets/78037558/f8e7031f-2c8f-4bc9-9e5b-18186d9ef887" width="600" />
   </a>
 </p>
+
+(для получения json данных из интернета - используйте ветку **[internet](https://github.com/ubisofter/foodies-food-cart-app/tree/internet)**)
 
 Приложение для мобильных устройств на языке Kotlin, использующее Jetpack Compose, является адаптивным приложением с анимациями и чистой архитектурой. Оно включает в себя экраны, на которых пользователь может просматривать каталог блюд, добавлять их в корзину, а также применять фильтры и выполнять поиск в каталоге.
 
