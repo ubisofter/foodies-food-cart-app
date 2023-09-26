@@ -1,4 +1,4 @@
-package ru.requestdesign.foodies
+package ru.requestdesign.foodies.viewmodels
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

@@ -1,4 +1,4 @@
-package ru.requestdesign.foodies
+package ru.requestdesign.foodies.screens
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +22,9 @@ import com.airbnb.lottie.compose.LottieClipSpec
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import kotlinx.coroutines.delay
+import ru.requestdesign.foodies.R
+import ru.requestdesign.foodies.data.Category
+import ru.requestdesign.foodies.data.Product
 
 @Composable
 fun SplashScreen(navController: NavController, categories: List<Category>, products: List<Product>) {

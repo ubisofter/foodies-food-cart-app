@@ -1,4 +1,4 @@
-package ru.requestdesign.foodies
+package ru.requestdesign.foodies.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.requestdesign.foodies.data.Category
 
 @Composable
 fun CategoryCard(category: Category, selected: Boolean, onCategorySelected: (Category) -> Unit) {

@@ -24,6 +24,16 @@ import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.requestdesign.foodies.data.Category
+import ru.requestdesign.foodies.data.FoodApi
+import ru.requestdesign.foodies.data.Product
+import ru.requestdesign.foodies.screens.CartScreen
+import ru.requestdesign.foodies.screens.CatalogueScreen
+import ru.requestdesign.foodies.screens.CelebrateScreen
+import ru.requestdesign.foodies.screens.ItemScreen
+import ru.requestdesign.foodies.screens.SplashScreen
+import ru.requestdesign.foodies.viewmodels.CartViewModel
+import ru.requestdesign.foodies.viewmodels.CatalogueViewModel
 import java.util.concurrent.TimeUnit
 
 @ExperimentalFoundationApi

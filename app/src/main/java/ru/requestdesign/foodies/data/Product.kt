@@ -1,4 +1,4 @@
-package ru.requestdesign.foodies
+package ru.requestdesign.foodies.data
 
 data class Product(
     val id: Int,

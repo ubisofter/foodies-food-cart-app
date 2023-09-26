@@ -1,7 +1,8 @@
-package ru.requestdesign.foodies
+package ru.requestdesign.foodies.viewmodels
 
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.lifecycle.ViewModel
+import ru.requestdesign.foodies.data.Product
 
 class CartViewModel : ViewModel() {
     private val _cart = mutableStateMapOf<Product, Int>()
